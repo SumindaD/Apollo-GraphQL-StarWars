@@ -3,15 +3,17 @@ const { makeExecutableSchema } = require('graphql-tools');
 const { mergeTypeDefs } = require('graphql-tools-merge-typedefs');
 
 const peopleSchema = require('./schemas/people-schema');
+const planetSchema = require('./schemas/planet-schema');
 const StarWarsAPI = require('./datasources/star-wars');
 
 // merge conflicting "Query", "Mutation", and "Subscription" definitions
 const typeDefs = mergeTypeDefs([
-    peopleSchema.typeDefs
+  planetSchema.typeDefs,
+  peopleSchema.typeDefs
 ]);
 
 const resolvers = [
-    peopleSchema.resolvers
+  peopleSchema.resolvers
 ];
 
 const schema = makeExecutableSchema({typeDefs, resolvers});

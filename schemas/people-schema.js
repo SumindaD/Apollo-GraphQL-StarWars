@@ -14,22 +14,7 @@ exports.typeDefs = gql`
     edited: String,
     url: String,
     homeworld: String,
-    homeworld_planet: HomeWorld
-  }
-
-  type HomeWorld{
-    name: String,
-    rotation_period: String,
-    orbital_period: String,
-    diameter: String,
-    climate: String,
-    gravity: String,
-    terrain: String,
-    surface_water: String,
-    population: String,
-    created: String,
-    edited: String,
-    url: String
+    homeworld_planet: Planet
   }
 
   type Query {
