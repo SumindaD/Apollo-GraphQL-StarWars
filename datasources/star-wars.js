@@ -15,6 +15,11 @@ class StarWarsAPI extends RESTDataSource {
         const data = await this.get(`people/${id}`);
         return data;
     }
+
+    async getResource(url) {
+        const data = await this.get(url);
+        return data;
+    }
 }
 
 module.exports = StarWarsAPI;
