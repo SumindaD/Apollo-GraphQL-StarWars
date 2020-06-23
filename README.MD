@@ -11,5 +11,5 @@ npm install
 ## Usage
 
 ```bash
-nom start
+npm start
 ```
