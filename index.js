@@ -5,6 +5,7 @@ const { mergeTypeDefs } = require('graphql-tools-merge-typedefs');
 const peopleSchema = require('./schemas/people-schema');
 const planetSchema = require('./schemas/planet-schema');
 const StarWarsAPI = require('./datasources/star-wars');
+const homeworldLoader = require('./dataloaders/homeworld-loader');
 
 // merge conflicting "Query", "Mutation", and "Subscription" definitions
 const typeDefs = mergeTypeDefs([
@@ -22,6 +23,11 @@ const server = new ApolloServer({
   schema,
   dataSources: () => ({
     starWarsAPI: new StarWarsAPI()
+  }),
+  context: () => ({
+    homeworldLoader:  homeworldLoader(({
+      starWarsAPI: new StarWarsAPI()
+    }))
   })
 });
 
