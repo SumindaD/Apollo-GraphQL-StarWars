@@ -1,5 +1,4 @@
 const { gql } = require('apollo-server');
-const DataLoader = require("dataloader")
 
 exports.typeDefs = gql`
   type People {
@@ -36,8 +35,8 @@ exports.resolvers = {
     }
   },
   People: {
-    homeworld_planet: (parent, args, { homeworldLoader }, info) => {
-      return homeworldLoader.homeworldLoader.load(parent.homeworld)
+    homeworld_planet: (parent, args, { resourceLoader }, info) => {
+      return resourceLoader.load(parent.homeworld)
     }
   }
 };

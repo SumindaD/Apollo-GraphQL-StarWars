@@ -5,7 +5,7 @@ const { mergeTypeDefs } = require('graphql-tools-merge-typedefs');
 const peopleSchema = require('./schemas/people-schema');
 const planetSchema = require('./schemas/planet-schema');
 const StarWarsAPI = require('./datasources/star-wars');
-const homeworldLoader = require('./dataloaders/homeworld-loader');
+const resourceLoader = require('./dataloaders/resource-loader');
 
 // merge conflicting "Query", "Mutation", and "Subscription" definitions
 const typeDefs = mergeTypeDefs([
@@ -14,7 +14,8 @@ const typeDefs = mergeTypeDefs([
 ]);
 
 const resolvers = [
-  peopleSchema.resolvers
+  peopleSchema.resolvers,
+  planetSchema.resolvers
 ];
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
@@ -25,9 +26,7 @@ const server = new ApolloServer({
     starWarsAPI: new StarWarsAPI()
   }),
   context: () => ({
-    homeworldLoader:  homeworldLoader(({
-      starWarsAPI: new StarWarsAPI()
-    }))
+    resourceLoader:  resourceLoader()
   })
 });
 
