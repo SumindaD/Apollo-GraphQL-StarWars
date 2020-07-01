@@ -3,7 +3,7 @@ const request = require('request');
 const util = require('util')
 
 const batchResources = async (urls) => {
-    console.log('Loading resources:' + urls)
+    console.log('Dataloader Loading resources:' + urls)
     var resources = []
 
     var i;

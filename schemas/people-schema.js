@@ -17,9 +17,16 @@ exports.typeDefs = gql`
     homeworld_planet: Planet
   }
 
+  input PeopleFilterInput {
+    name: StringFilterInput,
+    height: StringFilterInput,
+    OR: [PeopleFilterInput!]
+  }
+
   type Query {
     people: [People],
-    peopleById(id: Int): People
+    peopleById(id: Int): People,
+    peopleFilter(filter: PeopleFilterInput): [People]
   }
 `;
 
@@ -32,6 +39,28 @@ exports.resolvers = {
     peopleById: (parent, { id }, { dataSources }, info) => {
       console.log(`fetching people by id: ${id}`)
       return dataSources.starWarsAPI.getPeopleById(id)
+    },
+    peopleFilter: async (parent, { filter }, { dataSources }, info) => {
+      var result = []
+
+      if (filter.OR){
+        await Promise.all(filter.OR.map(async (item) => {
+          for(const fieldName in item){
+            if(fieldName == "name"){
+              for(const operator in item[fieldName]){
+                if (operator == "contains"){
+                  await dataSources.starWarsAPI.searchPeopleByName(item[fieldName][operator]).then(data => 
+                    { 
+                      result = result.concat(data) 
+                    })
+                }
+              }
+            }
+          }
+        }));
+      }
+
+      return result
     }
   },
   People: {
